@@ -1,5 +1,6 @@
+// import { access, constants } from 'node:fs';
+const { access, constants } = require("node:fs");
 const NodeHelper = require("node_helper");
-var pyshell = require('python-shell');
 const sqlite3 = require('sqlite3');
 
 module.exports = NodeHelper.create({
@@ -15,19 +16,26 @@ module.exports = NodeHelper.create({
   },
 
   todoListStart: function () {
-    self = this;
-    var options = {
-      pythonPath: this.config.pythonPath,
-      scriptPath: './modules/MMM-FastNotes',
-      args: [
-        "--host", this.config.host,
-        "--port", this.config.port
-      ]
-    };
-
-    pyshell.PythonShell.run('FastNotes.py', options, function (err) {
-      if (err) throw err;
-    });
+    access('./modules/MMM-FastNotes/backend/database.db', constants.F_OK, (fileDoesNotExist) => {
+      if (fileDoesNotExist) {
+        let db = new sqlite3.Database('./modules/MMM-FastNotes/backend/database.db', (sql_err) => {
+          if (sql_err) {
+            console.error(sql_err.message)
+          } else {
+            db.run(`CREATE TABLE posts (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              content TEXT NOT NULL)`
+            )
+          }
+        })
+        db.close((sql_err) => {
+          if (sql_err) {
+            console.error(sql_err.message)
+          }
+        })
+      }
+    })
   },
 
   readDb: function () {
@@ -37,14 +45,13 @@ module.exports = NodeHelper.create({
       }
     });
 
-    let sql = `SELECT title Title,
-                      content Text,
+    let sql = `SELECT content Text,
                       created Date
                FROM posts
                ORDER BY created`;
     db.all(sql, [], (err, rows) => {
       if (err) {
-        throw err;
+        console.error(err);
       }
       this.sendSocketNotification("DATABASE", rows);
     });

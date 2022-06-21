@@ -2,7 +2,6 @@ import os
 import sqlite3
 import pathlib
 
-
 class Database:
     DATABASE = f'{pathlib.Path(__file__).parent.absolute()}{os.sep}database.db'
     SCHEMA = f'{pathlib.Path(__file__).parent.absolute()}{os.sep}schema.sql'
@@ -16,6 +15,7 @@ class Database:
                 conn.executescript(f.read())
                 conn.commit()
                 conn.close()
+                print(3)
 
     def _get_connection(self):
         conn = sqlite3.connect(self.DATABASE)
@@ -35,17 +35,17 @@ class Database:
         conn.close()
         return post
 
-    def create_post(self, title, content):
+    def create_post(self, content):
         conn = self._get_connection()
-        conn.execute('INSERT INTO posts (title, content) VALUES (?, ?)',
-                     (title, content))
+        conn.execute('INSERT INTO posts (content) VALUES (?)',
+                     (content))
         conn.commit()
         conn.close()
 
-    def edit_post(self, title, content, post_id):
+    def edit_post(self, content, post_id):
         conn = self._get_connection()
-        conn.execute('UPDATE posts SET title = ?, content = ? WHERE id = ?',
-                     (title, content, post_id))
+        conn.execute('UPDATE posts SET content = ? WHERE id = ?',
+                     (content, post_id))
         conn.commit()
         conn.close()
 
@@ -54,3 +54,6 @@ class Database:
         conn.execute('DELETE FROM posts WHERE id = ?', (post_id,))
         conn.commit()
         conn.close()
+
+if __name__ == '__main__':
+    db = Database()
