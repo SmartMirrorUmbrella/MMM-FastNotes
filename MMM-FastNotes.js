@@ -17,7 +17,6 @@ Module.register("MMM-FastNotes", {
     },
 
     socketNotificationReceived: function (notification, payload) {
-        console.log(notification);
         if (notification === "DATABASE") {
             if (this.todoList != payload) {
                 this.todoList = payload;
