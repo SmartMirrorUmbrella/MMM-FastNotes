@@ -38,7 +38,7 @@ class Database:
     def create_post(self, content):
         conn = self._get_connection()
         conn.execute('INSERT INTO posts (content) VALUES (?)',
-                     (content))
+                     (content, ))
         conn.commit()
         conn.close()
 
@@ -49,9 +49,15 @@ class Database:
         conn.commit()
         conn.close()
 
+    def delete_all_posts(self):
+        conn = self._get_connection()
+        conn.execute('DELETE FROM posts')
+        conn.commit()
+        conn.close()
+
     def delete_post(self, post_id):
         conn = self._get_connection()
-        conn.execute('DELETE FROM posts WHERE id = ?', (post_id,))
+        conn.execute('DELETE FROM posts WHERE id = ?', (post_id, ))
         conn.commit()
         conn.close()
 
