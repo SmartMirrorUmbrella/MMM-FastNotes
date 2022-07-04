@@ -51,17 +51,17 @@ Module.register("MMM-FastNotes", {
 
     getDom: function () {
         var wrapper = document.createElement("div");
-        const table = document.createElement('table');
+        const noteList = document.createElement('ul');
         wrapper.innerHTML = "";
         if (this.todoList.length > 0) {
             this.todoList.forEach((item) => {
                 // content of note
-                const row = document.createElement('tr');
-                row.innerText = item.Text;
-                row.className = this.config.contentTextStyle;
-                table.appendChild(row);
+                const note = document.createElement('li');
+                note.innerText = item.Text;
+                note.className = this.config.contentTextStyle;
+                noteList.appendChild(note);
             });
-            wrapper.appendChild(table);
+            wrapper.appendChild(noteList);
         } else {
             wrapper.innerHTML = "No Notes...";
         }
