@@ -3,20 +3,20 @@ const NodeHelper = require("node_helper");
 const sqlite3 = require('sqlite3');
 
 module.exports = NodeHelper.create({
-
   socketNotificationReceived: function (notification, payload) {
     if (notification === "START_FAST_NOTES") {
-      this.config = payload;
-      this.todoListStart();
-      setInterval(() => {
-        this.readDb();
-      }, this.config.updateInterval);
-    } else if (notification === "DB-UPDATED") {
+      // this.config = payload;
+      console.log("Notification to start")
+      this.initializeList();
       this.readDb();
+    } else if (notification === "DB-UPDATED") {
+      console.log("Updates rreceived")
+      this.readDb();
+      // this.updateDom();
   }
   },
 
-  todoListStart: function () {
+  initializeList: function () {
     access('./modules/MMM-FastNotes/backend/database.db', constants.F_OK, (fileDoesNotExist) => {
       if (fileDoesNotExist) {
         let db = new sqlite3.Database('./modules/MMM-FastNotes/backend/database.db', (sql_err) => {
@@ -45,7 +45,6 @@ module.exports = NodeHelper.create({
         console.error(err.message);
       }
     });
-
     let sql = `SELECT content Text,
                       created Date
                FROM posts
@@ -56,7 +55,6 @@ module.exports = NodeHelper.create({
       }
       this.sendSocketNotification("DATABASE", rows);
     });
-
     db.close((err) => {
       if (err) {
         console.error(err.message);
