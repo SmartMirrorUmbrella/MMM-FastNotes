@@ -25,7 +25,7 @@ Module.register("MMM-FastNotes", {
             else{
                 this.updAnimationSpeed = 0;
             }
-        }
+        } 
     },
 
     // Gets correct css file from config.js
@@ -55,7 +55,6 @@ Module.register("MMM-FastNotes", {
         wrapper.innerHTML = "";
         if (this.todoList.length > 0) {
             this.todoList.forEach((item) => {
-                // content of note
                 const note = document.createElement('li');
                 note.innerText = item.Text;
                 note.className = this.config.contentTextStyle;

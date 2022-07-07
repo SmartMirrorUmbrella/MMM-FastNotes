@@ -1,4 +1,3 @@
-// import { access, constants } from 'node:fs';
 const { access, constants } = require("node:fs");
 const NodeHelper = require("node_helper");
 const sqlite3 = require('sqlite3');
@@ -12,7 +11,9 @@ module.exports = NodeHelper.create({
       setInterval(() => {
         this.readDb();
       }, this.config.updateInterval);
-    }
+    } else if (notification === "DB-UPDATED") {
+      this.readDb();
+  }
   },
 
   todoListStart: function () {
