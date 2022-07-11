@@ -1,12 +1,11 @@
 Module.register("MMM-FastNotes", {
-    // defaults: {
-    //     // contentTextStyle: "normal dimmed", // style for Note Content
-    // },
-
     start: function () {
-        this.sendSocketNotification("HEJ");
-        this.notepad = [];
-        console.log(0)
+        this.notepad =  [];
+        this.sendSocketNotification("Initiate connection.");
+        this.sendNotification("MYCROFT_COMMAND", {
+            eventName: "fastnotes-skill:get_all_posts",
+            data: {}
+        });
     },
 
     socketNotificationReceived: function (notification, payload) {
@@ -17,14 +16,11 @@ Module.register("MMM-FastNotes", {
         } else if (notification === "DELETE-POSTS") {
             this.notepad = [];
         }
-        console.log(payload)
-        console.log(1)
         this.updateDom();
     },
 
     notificationReceived: function(notification, payload, sender) {
         if (notification === "MYCROFT_CONNECTED") {
-            console.log(10)
             this.sendNotification("MYCROFT_COMMAND", {
                 eventName: "fastnotes-skill:get_all_posts",
                 data: {}
@@ -33,23 +29,21 @@ Module.register("MMM-FastNotes", {
     },
 
     getDom: function () {
-        console.log(2)
         var wrapper = document.createElement("div");
         const noteList = document.createElement('ul');
         wrapper.innerHTML = "";
+        this.notepad.sort((a, b) => b[0] - a[0])
         if (this.notepad.length > 0) {
-            console.log(3)
             this.notepad.forEach((item) => {
                 const note = document.createElement('li');
-                note.innerText = item;
+                note.innerText = item[2];
                 noteList.appendChild(note);
             });
+            noteList.sor
             wrapper.appendChild(noteList);
         } else {
-            console.log(4)
             wrapper.innerHTML = "No Notes...";
         }
-        console.log(5)
         return wrapper;
     }
 });
