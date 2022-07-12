@@ -5,7 +5,7 @@ Module.register("MMM-FastNotes", {
         this.sendNotification("MYCROFT_COMMAND", {
             eventName: "fastnotes-skill:get_all_posts",
             data: {}
-        });
+        });   
     },
 
     socketNotificationReceived: function (notification, payload) {
@@ -15,7 +15,7 @@ Module.register("MMM-FastNotes", {
             this.notepad = payload.posts;
         } else if (notification === "DELETE-POSTS") {
             this.notepad = [];
-        }
+        } 
         this.updateDom();
     },
 
