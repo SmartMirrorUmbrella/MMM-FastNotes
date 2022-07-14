@@ -1,4 +1,4 @@
-## MMM-FastNotes
+## MMM-notes
 Module for [MagicMirror](https://github.com/MichMich/MagicMirror). Can be used for adding notes on MagicMirror using fast and easy web interface
 
 <details><summary><h3>Watch demonstration (click to expand)</h3></summary>
