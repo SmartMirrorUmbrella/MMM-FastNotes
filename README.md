@@ -45,12 +45,12 @@ cd ~/MagicMirror/modules
 
 Clone this module repository:
 ```markdown
-git clone https://github.com/SmartMirrorUmbrella/MMM-FastNotes.git
+git clone https://github.com/SmartMirrorUmbrella/MMM-notes.git
 ```
 
-Navigate to the new MMM-FastNotes folder and install the npm **sqlite3** dependency
+Navigate to the new MMM-notes folder and install the npm **sqlite3** dependency
 ```markdown
-cd MMM-FastNotes
+cd MMM-notes
 npm install sqlite3
 ```
 
@@ -58,7 +58,7 @@ npm install sqlite3
 Here is example of config, that must be placed in *config.js* file in array *modules*
 ```markdown
 {
-module: 'MMM-FastNotes', //module name
+module: 'MMM-notes', //module name
 disabled: false,         //false if you want turn on module
 position: 'top_left',
 config: {
