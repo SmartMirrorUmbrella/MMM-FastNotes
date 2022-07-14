@@ -1,4 +1,4 @@
-Module.register("MMM-FastNotes", {
+Module.register("MMM-notes", {
     start: function () {
         this.notepad =  [];
         this.sendSocketNotification("Initiate connection.");
