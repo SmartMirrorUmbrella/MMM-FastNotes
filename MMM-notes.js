@@ -3,7 +3,7 @@ Module.register("MMM-notes", {
         this.notepad =  [];
         this.sendSocketNotification("Initiate connection.");
         this.sendNotification("MYCROFT_COMMAND", {
-            eventName: "fastnotes-skill:get_all_posts",
+            eventName: "notes-skill:get_all_posts",
             data: {}
         });   
     },
@@ -22,7 +22,7 @@ Module.register("MMM-notes", {
     notificationReceived: function(notification, payload, sender) {
         if (notification === "MYCROFT_CONNECTED") {
             this.sendNotification("MYCROFT_COMMAND", {
-                eventName: "fastnotes-skill:get_all_posts",
+                eventName: "notes-skill:get_all_posts",
                 data: {}
             });
         }
