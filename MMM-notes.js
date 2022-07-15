@@ -1,4 +1,4 @@
-Module.register("MMM-notes", {
+Module.register("MMM-Notes", {
     start: function () {
         this.notepad =  [];
         this.sendSocketNotification("Initiate connection.");

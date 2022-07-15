@@ -1,4 +1,4 @@
-## MMM-notes
+## MMM-Notes
 Module for [MagicMirror](https://github.com/MichMich/MagicMirror). Can be used for adding notes on MagicMirror using fast and easy web interface
 
 <details><summary><h3>Watch demonstration (click to expand)</h3></summary>
@@ -45,12 +45,12 @@ cd ~/MagicMirror/modules
 
 Clone this module repository:
 ```markdown
-git clone https://github.com/SmartMirrorUmbrella/MMM-notes.git
+git clone https://github.com/SmartMirrorUmbrella/MMM-Notes.git
 ```
 
-Navigate to the new MMM-notes folder and install the npm **sqlite3** dependency
+Navigate to the new MMM-Notes folder and install the npm **sqlite3** dependency
 ```markdown
-cd MMM-notes
+cd MMM-Notes
 npm install sqlite3
 ```
 
@@ -58,7 +58,7 @@ npm install sqlite3
 Here is example of config, that must be placed in *config.js* file in array *modules*
 ```markdown
 {
-module: 'MMM-notes', //module name
+module: 'MMM-Notes', //module name
 disabled: false,         //false if you want turn on module
 position: 'top_left',
 config: {
