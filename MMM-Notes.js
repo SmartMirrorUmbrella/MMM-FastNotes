@@ -1,7 +1,7 @@
 Module.register("MMM-Notes", {
     start: function () {
         this.notepad =  [];
-        this.sendSocketNotification("Initiate connection.");
+        this.sendSocketNotification("INIT", {});
         this.sendNotification("MYCROFT_COMMAND", {
             eventName: "notes-skill:get_all_posts",
             data: {}
@@ -11,11 +11,13 @@ Module.register("MMM-Notes", {
     socketNotificationReceived: function (notification, payload) {
         if (notification === "NEW-POST") {
             this.notepad.push(payload.post)
+            console.log(payload.post)
         } else if (notification === "ALL-POSTS") {
             this.notepad = payload.posts;
         } else if (notification === "DELETE-POSTS") {
             this.notepad = [];
         } 
+        console.log(notification, payload)
         this.updateDom();
     },
 
@@ -33,6 +35,7 @@ Module.register("MMM-Notes", {
         const noteList = document.createElement('ul');
         wrapper.innerHTML = "";
         this.notepad.sort((a, b) => b[0] - a[0])
+        console.log(this.notepad)
         if (this.notepad.length > 0) {
             this.notepad.forEach((item) => {
                 const note = document.createElement('li');
