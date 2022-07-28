@@ -1,4 +1,8 @@
 Module.register("MMM-Notes", {
+    /**
+     * Start the module.           
+     * Notifies mycroft to send posts from database.     
+     */
     start: function () {
         this.notepad =  [];
         this.sendSocketNotification("INIT", {});
@@ -8,6 +12,11 @@ Module.register("MMM-Notes", {
         });   
     },
 
+    /**
+     * Listens for notifications and acts accordningly.          
+     * @param {string} notification - the notification that was sent.           
+     * @param {any} payload - the payload of the notification.           
+     */
     socketNotificationReceived: function (notification, payload) {
         if (notification === "NEW-POST") {
             this.notepad.push(payload.post)
@@ -19,6 +28,10 @@ Module.register("MMM-Notes", {
         this.updateDom();
     },
 
+    /**
+     * Listens for notifications and acts accordningly.     
+     * @param {Object} details - The details of the install.       
+     */
     notificationReceived: function(notification, payload, sender) {
         if (notification === "MYCROFT_CONNECTED") {
             this.sendNotification("MYCROFT_COMMAND", {
@@ -28,6 +41,10 @@ Module.register("MMM-Notes", {
         }
     },
 
+    /**
+     * Returns a DOM element that contains the notepad.           
+     * @returns {HTMLElement} - the notepad element.           
+     */
     getDom: function () {
         var wrapper = document.createElement("div");
         const noteList = document.createElement('ul');
