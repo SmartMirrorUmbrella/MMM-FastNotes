@@ -4,7 +4,7 @@ Module.register("MMM-Notes", {
      * Notifies mycroft to send posts from database.     
      */
     start: function () {
-        this.notepad =  [];
+        this.notepad =  {};
         this.sendSocketNotification("INIT", {});
         this.sendNotification("MYCROFT_COMMAND", {
             eventName: "notes-skill:get_all_posts",
@@ -19,18 +19,25 @@ Module.register("MMM-Notes", {
      */
     socketNotificationReceived: function (notification, payload) {
         if (notification === "NEW-POST") {
-            this.notepad.push(payload.post)
+            this.notepad[payload.post[0]] = {title: payload.post[1], content: payload.post[2]}
         } else if (notification === "ALL-POSTS") {
-            this.notepad = payload.posts;
+            this.notepad = {}
+            payload.posts.forEach((post) => {
+                this.notepad[post[0]] = {title: post[1], content: post[2]}
+            })
+        } else if (notification === "DELETE-POST") {
+            delete (this.notepad[payload.id])
         } else if (notification === "DELETE-POSTS") {
-            this.notepad = [];
+            this.notepad = {};
         } 
         this.updateDom();
     },
 
     /**
-     * Listens for notifications and acts accordningly.     
-     * @param {Object} details - The details of the install.       
+     * Listens for notification and acts accordingly.    
+     * @param {Object} notification - The notification received.       
+     * @param {Object} payload - The payload of the notification.       
+     * @param {Object} sender - The sender of the notification.       
      */
     notificationReceived: function(notification, payload, sender) {
         if (notification === "MYCROFT_CONNECTED") {
@@ -42,25 +49,32 @@ Module.register("MMM-Notes", {
     },
 
     /**
-     * Returns a DOM element that contains the notepad.           
-     * @returns {HTMLElement} - the notepad element.           
+     * Returns the DOM element that contains the notepad.           
+     * @returns {HTMLElement} The DOM element that contains the notepad.           
      */
     getDom: function () {
-        var wrapper = document.createElement("div");
-        const noteList = document.createElement('ul');
-        wrapper.innerHTML = "";
-        this.notepad.sort((a, b) => b[0] - a[0])
-        if (this.notepad.length > 0) {
-            this.notepad.forEach((item) => {
-                const note = document.createElement('li');
-                note.innerText = item[2];
-                noteList.appendChild(note);
-            });
-            noteList.sor
-            wrapper.appendChild(noteList);
+        var table = document.createElement("table");
+        if (Object.keys(this.notepad).length > 0) {
+            const tableBody = document.createElement('tbody');
+            counter = 0
+            for (const [key, value] of Object.entries(this.notepad).sort((a, b) => b[0] - a[0])) {
+                const row       = document.createElement("tr")
+                const id        = document.createElement("td")
+                const content   = document.createElement("td")
+                
+                id.setAttribute("align", "right")
+                id.setAttribute("width", "1")
+                id.appendChild(document.createTextNode(`${key}. `))
+                content.appendChild(document.createTextNode(value.content))
+                row.appendChild(id)
+                row.appendChild(content)
+                tableBody.appendChild(row)
+                if (++counter > 7) break
+            }
+            table.appendChild(tableBody)
         } else {
-            wrapper.innerHTML = "No Notes...";
+            table.innerHTML = "No notes";
         }
-        return wrapper;
+        return table;
     }
 });
