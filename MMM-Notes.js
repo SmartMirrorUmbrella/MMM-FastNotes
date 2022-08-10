@@ -73,8 +73,15 @@ Module.register("MMM-Notes", {
             }
             table.appendChild(tableBody)
         } else {
-            table.innerHTML = "No notes";
+            table.innerHTML = this.translate("NO_NOTES");
         }
         return table;
+    },
+
+    getTranslations: function () {
+        return {
+            sv: "translations/sv.json",
+            en: "translations/en.json"
+        }
     }
 });
