@@ -1,38 +1,44 @@
 # MMM-Notes
 
-Module for [MagicMirror](https://github.com/MichMich/MagicMirror). Can be used for adding notes on MagicMirror.
+Module for [MagicMirror](https://github.com/MichMich/MagicMirror). Can be used for adding notes on the MagicMirror through Mycroft.
 
 ## Dependencies
 
-* [MagicMirror](https://github.com/MichMich/MagicMirror)
-* [sqlite3](http://npmjs.com/package/sqlite3)
-* Python 3.6 or higher
+```bash
+mycroft-pip install sqlite3
+git clone git@github.com:krukle/notes-skill.git ~/mycroft-core/skills/notes-skill
+```
+
+> **Note**
+>
+> Change git clone destination according to your setup.
 
 ## Installation
 
 ```bash
-cd ~/MagicMirror/modules
-git clone https://github.com/SmartMirrorUmbrella/MMM-Notes.git
-cd MMM-Notes
-npm install sqlite3
+git clone git@github.com:krukle/MMM-Notes.git ~/MagicMirror/modules/MMM-Notes
 ```
 
 ## Configuration
 
-Here is example of config, that must be placed in `config.js` file in array `modules`.
-
 ```js
-let config = {
-    ...
-    modules: [
-        ...
-        {
-            module: "MMM-Notes",
-            position: "top_left"
-        },
-        ...
-    ]
-}
+module: "MMM-Notes",
+position: "top_left" //or w/e pos you want.
 ```
 
-*Ellipsis represent code not seen.*
+## Messages
+
+### Emitted
+
+| Message | About |
+| ------- | ----- |
+| notes-skill:get_all_posts | Sent when all posts should be sent back. |
+
+### Received
+
+| Message | Data | About |
+| ------- | ---- | ----- |
+| NEW-POST | `{post: (int:id, str:title, str:content)}` | Received when a post is created. |
+| ALL-POSTS | `{posts: list((int:id, str:title, str:content))}` | Received when all posts are received. |
+| DELETE-POSTS | `{}` | Received when all posts are deleted. |
+| DELETE-POST | `{id: int:id}` | Received when a post with id; `id`, is deleted.
